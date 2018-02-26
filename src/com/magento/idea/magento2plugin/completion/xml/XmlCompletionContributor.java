@@ -6,6 +6,7 @@ import com.intellij.patterns.XmlPatterns;
 import com.intellij.psi.xml.XmlTokenType;
 import com.magento.idea.magento2plugin.completion.provider.*;
 
+
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 import static com.intellij.patterns.StandardPatterns.string;
 import static com.intellij.patterns.XmlPatterns.xmlFile;
@@ -13,6 +14,7 @@ import static com.intellij.patterns.XmlPatterns.xmlFile;
 public class XmlCompletionContributor extends CompletionContributor {
 
     public XmlCompletionContributor() {
+        System.out.println("ZEBRA MAGENTO LOADING WHOO!");
         extend(CompletionType.BASIC, psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN),
             new CompositeCompletionProvider(
                 new PhpClassCompletionProvider(),
@@ -100,6 +102,16 @@ public class XmlCompletionContributor extends CompletionContributor {
                 .withParent(XmlPatterns.xmlTag().withName("event"))
             ).inFile(xmlFile().withName(string().endsWith("events.xml"))),
             new EventNameCompletionContributor()
+        );
+
+        // mftf selector completion contributor
+        extend(CompletionType.BASIC, psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+            .inside(XmlPatterns.xmlAttribute().withName("selector")
+                    .withValue(string().contains("{{"))
+                    .withValue(string().contains("}}"))
+                    .withParent(XmlPatterns.xmlTag().withName("test"))
+            ),
+            new MftfSelectorCompletionProvider()
         );
     }
 }
