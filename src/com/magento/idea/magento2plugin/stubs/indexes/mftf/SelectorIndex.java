@@ -43,7 +43,7 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
 
             XmlTag xmlRootTag = xmlDocument.getRootTag();
 
-            if (xmlRootTag == null || xmlRootTag.getName() != "sections") {
+            if (xmlRootTag == null || !xmlRootTag.getName().equals("sections")) {
                 return map;
             }
 
@@ -59,8 +59,6 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
                 if (section == null || section.isEmpty()) {
                     continue;
                 }
-
-//                map.put(selector, null);
 
                 for (XmlTag elementTag : sectionTag.findSubTags("element")) {
                     String element = elementTag.getAttributeValue("name");
