@@ -70,8 +70,7 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
                         continue;
                     }
 
-                    // use keys QA engineer would use; {{AdminCategoryBasicFieldSection.IncludeInMenu}} for example
-                    map.put("{{" + section + "." + element + "}}", selector);
+                    map.put(section + "." + element, selector);
                 }
             }
 
