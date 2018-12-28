@@ -18,7 +18,9 @@ import java.util.Map;
 
 public class SelectorIndex extends FileBasedIndexExtension<String, String> {
     public static final ID<String, String> KEY = ID.create(
-            "com.magento.idea.magento2plugin.stubs.indexes.mftf.selector_index");
+        "com.magento.idea.magento2plugin.stubs.indexes.mftf.selector_index"
+    );
+
     private final KeyDescriptor<String> myKeyDescriptor = new EnumeratorStringDescriptor();
 
     @NotNull
