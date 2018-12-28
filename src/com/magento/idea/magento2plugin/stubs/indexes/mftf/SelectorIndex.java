@@ -99,8 +99,7 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
     public FileBasedIndex.InputFilter getInputFilter() {
         return file ->
                 file.getFileType() == XmlFileType.INSTANCE &&
-                file.getPath().contains("dev/tests/acceptance/tests/functional") &&
-                file.getPath().contains("Section")
+                file.getPath().contains("Test/Mftf/Section")
             ;
     }
 
