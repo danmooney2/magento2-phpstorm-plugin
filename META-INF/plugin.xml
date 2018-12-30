@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.magento.idea.magento2plugin</id>
-    <name>Magento PhpStorm</name>
-    <version>0.2.3</version>
+    <id>com.magento.idea.magento2pluginmooney</id>
+    <name>Magento PhpStorm Mooney</name>
+    <version>0.2.4</version>
     <vendor url="https://github.com/magento/magento2-phpstorm-plugin">Magento Inc.</vendor>
 
     <description><![CDATA[
@@ -58,6 +58,9 @@
         <fileBasedIndex implementation="com.magento.idea.magento2plugin.stubs.indexes.ModulePackageIndex" />
         <fileBasedIndex implementation="com.magento.idea.magento2plugin.stubs.indexes.ModuleNameIndex" />
         <fileBasedIndex implementation="com.magento.idea.magento2plugin.stubs.indexes.mftf.SelectorIndex" />
+        <fileBasedIndex implementation="com.magento.idea.magento2plugin.stubs.indexes.mftf.ActionGroupIndex" />
+        <fileBasedIndex implementation="com.magento.idea.magento2plugin.stubs.indexes.mftf.DataIndex" />
+        <fileBasedIndex implementation="com.magento.idea.magento2plugin.stubs.indexes.mftf.PageIndex" />
 
         <codeInsight.lineMarkerProvider language="PHP" implementationClass="com.magento.idea.magento2plugin.php.linemarker.PluginLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="PHP" implementationClass="com.magento.idea.magento2plugin.php.linemarker.ClassConfigurationLineMarkerProvider"/>

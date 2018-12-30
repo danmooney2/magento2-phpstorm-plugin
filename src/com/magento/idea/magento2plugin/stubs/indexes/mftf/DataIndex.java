@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class SelectorIndex extends FileBasedIndexExtension<String, String> {
+public class DataIndex extends FileBasedIndexExtension<String, String> {
     public static final ID<String, String> KEY = ID.create(
-        "com.magento.idea.magento2plugin.stubs.indexes.mftf.selector_index"
+        "com.magento.idea.magento2plugin.stubs.indexes.mftf.entity_index"
     );
 
     private final KeyDescriptor<String> myKeyDescriptor = new EnumeratorStringDescriptor();
@@ -28,7 +28,6 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
     @Override
     public DataIndexer<String, String, FileContent> getIndexer() {
         return inputData -> {
-            Logger.getInstance("pizzatime").info("Booting SelectorIndex");
             Map<String, String> map = new THashMap<>();
             PsiFile psiFile = inputData.getPsiFile();
             if (!Settings.isEnabled(psiFile.getProject())) {
@@ -47,7 +46,7 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
 
             XmlTag xmlRootTag = xmlDocument.getRootTag();
 
-            if (xmlRootTag == null || !xmlRootTag.getName().equals("sections")) {
+            if (xmlRootTag == null || !xmlRootTag.getName().equals("entities")) {
                 return map;
             }
 
@@ -57,23 +56,15 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
                 return map;
             }
 
-            for (XmlTag sectionTag : xmlRootTag.findSubTags("section")) {
-                String section = sectionTag.getAttributeValue("name");
+            for (XmlTag actionGroupTag : xmlRootTag.findSubTags("entity")) {
+                String name = actionGroupTag.getAttributeValue("name");
 
-                if (section == null || section.isEmpty()) {
+                if (name == null || name.isEmpty()) {
                     continue;
                 }
 
-                for (XmlTag elementTag : sectionTag.findSubTags("element")) {
-                    String element = elementTag.getAttributeValue("name");
-                    String selector = elementTag.getAttributeValue("selector");
-
-                    if (element == null || element.isEmpty() || selector == null || selector.isEmpty()) {
-                        continue;
-                    }
-
-                    map.put(section + "." + element, selector);
-                }
+                Logger.getInstance("pizzatime").info("Adding to DataIndex: " + name);
+                map.put(name, name);
             }
 
             return map;
@@ -102,7 +93,7 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
     public FileBasedIndex.InputFilter getInputFilter() {
         return file ->
                 file.getFileType() == XmlFileType.INSTANCE &&
-                file.getPath().contains("Test/Mftf/Section")
+                file.getPath().contains("Test/Mftf/Data")
             ;
     }
 

@@ -152,5 +152,31 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
                         new FilePathReferenceProvider()
                 )
         );
+
+        // <someXmlTag someAttribute="{{someValue}}" />
+        registrar.registerReferenceProvider(
+            XmlPatterns.xmlAttributeValue().withValue(string().matches(".*\\{\\{[^\\}]+\\}\\}")),
+            new CompositeReferenceProvider(
+                new MftfSelectorReferenceProvider(),
+                new MftfDataReferenceProvider(),
+                new MftfPageReferenceProvider()
+            )
+        );
+
+        registrar.registerReferenceProvider(
+            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value"))),
+            new CompositeReferenceProvider(
+                new MftfDataReferenceProvider()
+            )
+        );
+
+        // <actionGroup ref="someActionGroup" />
+        registrar.registerReferenceProvider(
+            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName("ref")
+                .withParent(XmlPatterns.xmlTag().withName("actionGroup"))),
+            new CompositeReferenceProvider(
+                new MftfActionGroupReferenceProvider()
+            )
+        );
     }
 }
