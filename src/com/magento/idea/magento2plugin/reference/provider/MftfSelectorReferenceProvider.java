@@ -38,7 +38,7 @@ public class MftfSelectorReferenceProvider extends PsiReferenceProvider {
         List<PsiReference> psiReferences = new ArrayList<>();
 
         String origValue = StringUtil.unquoteString(element.getText());
-        String modifiedValue = origValue.replaceAll("\\{{2}([A-Za-z0-9.]+)(\\([^}]+\\))?\\}{2}", "$1").toString();
+        String modifiedValue = origValue.replaceAll(".*\\{{2}([_A-Za-z0-9.]+)(\\([^}]+\\))?\\}{2}.*", "$1").toString();
 
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
@@ -91,7 +91,7 @@ public class MftfSelectorReferenceProvider extends PsiReferenceProvider {
                         psiElements.add(elementNameAttribute.getValueElement());
                     }
                 }
-            };
+            }
         }
 
         if (psiElements.size() > 0) {

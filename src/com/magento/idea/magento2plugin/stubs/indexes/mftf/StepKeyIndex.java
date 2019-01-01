@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class PageIndex extends FileBasedIndexExtension<String, String> {
+public class StepKeyIndex extends FileBasedIndexExtension<String, String> {
     public static final ID<String, String> KEY = ID.create(
-        "com.magento.idea.magento2plugin.stubs.indexes.mftf.page_index"
+        "com.magento.idea.magento2plugin.stubs.indexes.mftf.step_key_index"
     );
 
     private final KeyDescriptor<String> myKeyDescriptor = new EnumeratorStringDescriptor();
@@ -30,6 +30,7 @@ public class PageIndex extends FileBasedIndexExtension<String, String> {
         return inputData -> {
             Map<String, String> map = new THashMap<>();
             PsiFile psiFile = inputData.getPsiFile();
+
             if (!Settings.isEnabled(psiFile.getProject())) {
                 return map;
             }
@@ -46,7 +47,7 @@ public class PageIndex extends FileBasedIndexExtension<String, String> {
 
             XmlTag xmlRootTag = xmlDocument.getRootTag();
 
-            if (xmlRootTag == null || !xmlRootTag.getName().equals("pages")) {
+            if (xmlRootTag == null || !xmlRootTag.getName().equals("tests")) {
                 return map;
             }
 
@@ -56,19 +57,37 @@ public class PageIndex extends FileBasedIndexExtension<String, String> {
                 return map;
             }
 
-            for (XmlTag pageTag : xmlRootTag.findSubTags("page")) {
-                String name = pageTag.getAttributeValue("name");
-
-                if (name == null || name.isEmpty()) {
+            for (XmlTag childTag : xmlRootTag.getSubTags()) {
+                if (childTag.getAttributeValue("name") == null ||
+                    childTag.getAttributeValue("name").isEmpty()
+                ) {
                     continue;
                 }
 
-//                Logger.getInstance("pizzatime").info("Adding to pageIndex: " + name);
-                map.put(name, name);
+                fillResultMap(
+                    childTag.getName() + "." + childTag.getAttributeValue("name"),
+                    childTag,
+                    map
+                );
             }
 
             return map;
         };
+    }
+
+    private void fillResultMap(String namespacePrefix, XmlTag parentTag, Map<String, String> resultMap) {
+        for (XmlTag childTag: parentTag.getSubTags()) {
+            if (childTag.getAttributeValue("stepKey") == null ||
+                childTag.getAttributeValue("stepKey").isEmpty()
+            ) {
+                continue;
+            }
+
+            String stepKeyReference = childTag.getAttributeValue("stepKey");
+
+            resultMap.put(namespacePrefix + "." + stepKeyReference, stepKeyReference);
+            fillResultMap(namespacePrefix, childTag, resultMap);
+        }
     }
 
     @NotNull
@@ -93,7 +112,7 @@ public class PageIndex extends FileBasedIndexExtension<String, String> {
     public FileBasedIndex.InputFilter getInputFilter() {
         return file ->
                 file.getFileType() == XmlFileType.INSTANCE &&
-                file.getPath().contains("Test/Mftf/Page")
+                file.getPath().contains("Test/Mftf")
             ;
     }
 

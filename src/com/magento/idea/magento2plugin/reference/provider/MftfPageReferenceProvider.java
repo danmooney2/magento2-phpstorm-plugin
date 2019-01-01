@@ -32,12 +32,12 @@ public class MftfPageReferenceProvider extends PsiReferenceProvider {
         List<PsiReference> psiReferences = new ArrayList<>();
 
         String origValue = StringUtil.unquoteString(element.getText());
-        Logger.getInstance("pizzatime").info("Looking up in ActionGroupIndex: " + origValue);
+        String modifiedValue = origValue.replaceAll("\\{{2}([_A-Za-z0-9]+)([^}]+)?\\}{2}", "$1").toString();
 
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
                 PageIndex.KEY,
-                origValue,
+                modifiedValue,
                 GlobalSearchScope.getScopeRestrictedByFileTypes(
                     GlobalSearchScope.allScope(element.getProject()),
                     XmlFileType.INSTANCE
@@ -56,10 +56,7 @@ public class MftfPageReferenceProvider extends PsiReferenceProvider {
             }
 
             Collection<XmlAttributeValue> valueElements = XmlPsiTreeUtil
-                    .findAttributeValueElements(xmlFile, "page", "name", origValue);
-
-
-            Logger.getInstance("pizzatime").info("valueElements length: " + valueElements.size());
+                    .findAttributeValueElements(xmlFile, "page", "name", modifiedValue);
 
             psiElements.addAll(valueElements);
         }

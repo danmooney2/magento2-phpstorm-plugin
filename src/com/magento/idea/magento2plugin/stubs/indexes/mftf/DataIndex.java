@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DataIndex extends FileBasedIndexExtension<String, String> {
     public static final ID<String, String> KEY = ID.create(
-        "com.magento.idea.magento2plugin.stubs.indexes.mftf.entity_index"
+        "com.magento.idea.magento2plugin.stubs.indexes.mftf.data_index"
     );
 
     private final KeyDescriptor<String> myKeyDescriptor = new EnumeratorStringDescriptor();
@@ -30,6 +30,8 @@ public class DataIndex extends FileBasedIndexExtension<String, String> {
         return inputData -> {
             Map<String, String> map = new THashMap<>();
             PsiFile psiFile = inputData.getPsiFile();
+
+            Logger.getInstance("pizzatime").info("Booting dataIndex");
             if (!Settings.isEnabled(psiFile.getProject())) {
                 return map;
             }
@@ -47,24 +49,38 @@ public class DataIndex extends FileBasedIndexExtension<String, String> {
             XmlTag xmlRootTag = xmlDocument.getRootTag();
 
             if (xmlRootTag == null || !xmlRootTag.getName().equals("entities")) {
+                Logger.getInstance("pizzatime").info("Could not find entities in dataIndex!");
                 return map;
             }
 
+            Logger.getInstance("pizzatime").info("Found entities in dataIndex!");
             XmlTag xmlTags[] = PsiTreeUtil.getChildrenOfType(psiFile.getFirstChild(), XmlTag.class);
 
             if (xmlTags == null) {
                 return map;
             }
 
-            for (XmlTag actionGroupTag : xmlRootTag.findSubTags("entity")) {
-                String name = actionGroupTag.getAttributeValue("name");
-
-                if (name == null || name.isEmpty()) {
+            for (XmlTag entityTag : xmlRootTag.findSubTags("entity")) {
+                String entityName = entityTag.getAttributeValue("name");
+                Logger.getInstance("pizzatime").info("Entity name in dataIndex: " + entityName);
+                if (entityName == null || entityName.isEmpty()) {
                     continue;
                 }
 
-                Logger.getInstance("pizzatime").info("Adding to DataIndex: " + name);
-                map.put(name, name);
+                Logger.getInstance("pizzatime").info("Adding to dataIndex: " + entityName);
+                map.put(entityName, entityName);
+
+                for (XmlTag dataTag : entityTag.findSubTags("data")) {
+                    String key = dataTag.getAttributeValue("key");
+                    String value = dataTag.getText();
+
+                    if (key == null || key.isEmpty() || value == null || value.isEmpty()) {
+                        continue;
+                    }
+
+                    Logger.getInstance("pizzatime").info("Adding to dataIndex: " + entityName + "." + key);
+                    map.put(entityName + "." + key, value);
+                }
             }
 
             return map;

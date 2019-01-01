@@ -63,7 +63,7 @@ public class ActionGroupIndex extends FileBasedIndexExtension<String, String> {
                     continue;
                 }
 
-                Logger.getInstance("pizzatime").info("Adding to ActionGroupIndex: " + name);
+//                Logger.getInstance("pizzatime").info("Adding to ActionGroupIndex: " + name);
                 map.put(name, name);
             }
 

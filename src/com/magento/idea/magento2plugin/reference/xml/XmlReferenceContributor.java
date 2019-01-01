@@ -155,7 +155,7 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
 
         // <someXmlTag someAttribute="{{someValue}}" />
         registrar.registerReferenceProvider(
-            XmlPatterns.xmlAttributeValue().withValue(string().matches(".*\\{\\{[^\\}]+\\}\\}")),
+            XmlPatterns.xmlAttributeValue().withValue(string().matches(".*\\{\\{[^\\}]+\\}\\}.*")),
             new CompositeReferenceProvider(
                 new MftfSelectorReferenceProvider(),
                 new MftfDataReferenceProvider(),
@@ -164,7 +164,7 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
         );
 
         registrar.registerReferenceProvider(
-            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value"))),
+            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value", "userInput", "url"))),
             new CompositeReferenceProvider(
                 new MftfDataReferenceProvider()
             )
@@ -178,5 +178,23 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
                 new MftfActionGroupReferenceProvider()
             )
         );
+
+        // TODO - assertGreaterThan/Equal variable stuff
+        // <assert*><*Result type="variable">$someVariableReferenceToStepKey</*Result></assert*>
+        registrar.registerReferenceProvider(
+            XmlPatterns.psiElement(XmlTokenType.XML_DATA_CHARACTERS).withParent(
+                XmlPatterns.xmlText().withParent(
+                    XmlPatterns.xmlTag().withChild(
+                        XmlPatterns.xmlAttribute().withName("type")
+                    )
+                )
+            ),
+            new CompositeReferenceProvider(
+                new MftfVariableToStepKeyProvider()
+            )
+        );
+
+
+        // TODO "extends" attribute for actionGroup, test, etc. and stepKeys references in extended type to original parent type
     }
 }

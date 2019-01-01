@@ -39,7 +39,6 @@ public class MftfActionGroupReferenceProvider extends PsiReferenceProvider {
         List<PsiReference> psiReferences = new ArrayList<>();
 
         String origValue = StringUtil.unquoteString(element.getText());
-        Logger.getInstance("pizzatime").info("Looking up in ActionGroupIndex: " + origValue);
 
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
@@ -64,9 +63,6 @@ public class MftfActionGroupReferenceProvider extends PsiReferenceProvider {
 
             Collection<XmlAttributeValue> valueElements = XmlPsiTreeUtil
                     .findAttributeValueElements(xmlFile, "actionGroup", "name", origValue);
-
-
-            Logger.getInstance("pizzatime").info("valueElements length: " + valueElements.size());
 
             psiElements.addAll(valueElements);
         }

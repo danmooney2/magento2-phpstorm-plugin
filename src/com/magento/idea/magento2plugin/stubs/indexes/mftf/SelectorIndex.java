@@ -28,9 +28,9 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
     @Override
     public DataIndexer<String, String, FileContent> getIndexer() {
         return inputData -> {
-            Logger.getInstance("pizzatime").info("Booting SelectorIndex");
             Map<String, String> map = new THashMap<>();
             PsiFile psiFile = inputData.getPsiFile();
+
             if (!Settings.isEnabled(psiFile.getProject())) {
                 return map;
             }
