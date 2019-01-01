@@ -6,6 +6,7 @@ import com.intellij.patterns.XmlPatterns;
 import com.intellij.psi.xml.XmlTokenType;
 import com.magento.idea.magento2plugin.completion.provider.*;
 import com.magento.idea.magento2plugin.completion.provider.mftf.ActionGroupCompletionProvider;
+import com.magento.idea.magento2plugin.completion.provider.mftf.DataCompletionProvider;
 import com.magento.idea.magento2plugin.completion.provider.mftf.SelectorCompletionProvider;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
@@ -130,10 +131,21 @@ public class XmlCompletionContributor extends CompletionContributor {
         extend(
             CompletionType.BASIC,
             psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
-                .inside(XmlPatterns.xmlAttribute().withName("ref")
-                .withParent(XmlPatterns.xmlTag().withName("actionGroup"))
+                .inside(
+                    XmlPatterns.xmlAttribute().withName("ref")
+                        .withParent(XmlPatterns.xmlTag().withName("actionGroup")
+                )
             ),
             new ActionGroupCompletionProvider()
+        );
+
+        // mftf action group completion contributor
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .inside(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value", "userInput", "url"))
+            ),
+            new DataCompletionProvider()
         );
     }
 }
