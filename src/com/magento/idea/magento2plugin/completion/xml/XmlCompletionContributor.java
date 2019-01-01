@@ -5,6 +5,7 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.XmlPatterns;
 import com.intellij.psi.xml.XmlTokenType;
 import com.magento.idea.magento2plugin.completion.provider.*;
+import com.magento.idea.magento2plugin.completion.provider.mftf.SelectorCompletionProvider;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
 import static com.intellij.patterns.StandardPatterns.string;
@@ -121,7 +122,7 @@ public class XmlCompletionContributor extends CompletionContributor {
 //            .inFile(xmlFile().withName(string().contains("Test/Mftf/Test"))),
 //                    .inFile(XmlPatterns.psiFile()
 //                        .withName(XmlPatterns.string().contains("Test/Mftf/Test"))),
-            new MftfSelectorCompletionProvider()
+            new SelectorCompletionProvider()
         );
     }
 }

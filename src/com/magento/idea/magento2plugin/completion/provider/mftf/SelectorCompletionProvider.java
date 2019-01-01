@@ -1,4 +1,4 @@
-package com.magento.idea.magento2plugin.completion.provider;
+package com.magento.idea.magento2plugin.completion.provider.mftf;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
-public class MftfSelectorCompletionProvider extends CompletionProvider<CompletionParameters> {
+public class SelectorCompletionProvider extends CompletionProvider<CompletionParameters> {
 
     @Override
     protected void addCompletions(@NotNull CompletionParameters parameters,
