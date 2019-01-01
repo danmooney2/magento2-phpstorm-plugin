@@ -5,6 +5,7 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.XmlPatterns;
 import com.intellij.psi.xml.XmlTokenType;
 import com.magento.idea.magento2plugin.completion.provider.*;
+import com.magento.idea.magento2plugin.completion.provider.mftf.ActionGroupCompletionProvider;
 import com.magento.idea.magento2plugin.completion.provider.mftf.SelectorCompletionProvider;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
@@ -123,6 +124,16 @@ public class XmlCompletionContributor extends CompletionContributor {
 //                    .inFile(XmlPatterns.psiFile()
 //                        .withName(XmlPatterns.string().contains("Test/Mftf/Test"))),
             new SelectorCompletionProvider()
+        );
+
+        // mftf action group completion contributor
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .inside(XmlPatterns.xmlAttribute().withName("ref")
+                .withParent(XmlPatterns.xmlTag().withName("actionGroup"))
+            ),
+            new ActionGroupCompletionProvider()
         );
     }
 }
