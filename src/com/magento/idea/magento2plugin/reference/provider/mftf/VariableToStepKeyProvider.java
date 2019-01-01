@@ -1,4 +1,4 @@
-package com.magento.idea.magento2plugin.reference.provider;
+package com.magento.idea.magento2plugin.reference.provider.mftf;
 
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.diagnostic.Logger;
@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class MftfVariableToStepKeyProvider extends PsiReferenceProvider {
+public class VariableToStepKeyProvider extends PsiReferenceProvider {
 
     @NotNull
     @Override

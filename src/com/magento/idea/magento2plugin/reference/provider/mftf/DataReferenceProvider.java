@@ -1,4 +1,4 @@
-package com.magento.idea.magento2plugin.reference.provider;
+package com.magento.idea.magento2plugin.reference.provider.mftf;
 
 import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.util.text.StringUtil;
@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class MftfDataReferenceProvider extends PsiReferenceProvider {
+public class DataReferenceProvider extends PsiReferenceProvider {
 
     @NotNull
     @Override

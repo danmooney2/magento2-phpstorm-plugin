@@ -6,6 +6,7 @@ import com.intellij.psi.PsiReferenceRegistrar;
 import com.intellij.psi.xml.XmlTokenType;
 import com.magento.idea.magento2plugin.php.util.PhpRegex;
 import com.magento.idea.magento2plugin.reference.provider.*;
+import com.magento.idea.magento2plugin.reference.provider.mftf.*;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.patterns.XmlPatterns.string;
@@ -157,16 +158,16 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
         registrar.registerReferenceProvider(
             XmlPatterns.xmlAttributeValue().withValue(string().matches(".*\\{\\{[^\\}]+\\}\\}.*")),
             new CompositeReferenceProvider(
-                new MftfSelectorReferenceProvider(),
-                new MftfDataReferenceProvider(),
-                new MftfPageReferenceProvider()
+                new SelectorReferenceProvider(),
+                new DataReferenceProvider(),
+                new PageReferenceProvider()
             )
         );
 
         registrar.registerReferenceProvider(
             XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value", "userInput", "url"))),
             new CompositeReferenceProvider(
-                new MftfDataReferenceProvider()
+                new DataReferenceProvider()
             )
         );
 
@@ -175,7 +176,7 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
             XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName("ref")
                 .withParent(XmlPatterns.xmlTag().withName("actionGroup"))),
             new CompositeReferenceProvider(
-                new MftfActionGroupReferenceProvider()
+                new ActionGroupReferenceProvider()
             )
         );
 
@@ -190,7 +191,7 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
                 )
             ),
             new CompositeReferenceProvider(
-                new MftfVariableToStepKeyProvider()
+                new VariableToStepKeyProvider()
             )
         );
 
