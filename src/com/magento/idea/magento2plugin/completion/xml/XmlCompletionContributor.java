@@ -132,14 +132,14 @@ public class XmlCompletionContributor extends CompletionContributor {
             CompletionType.BASIC,
             psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
                 .inside(
-                    XmlPatterns.xmlAttribute().withName("ref")
+                    XmlPatterns.xmlAttribute().withName(string().oneOf("ref", "extends"))
                         .withParent(XmlPatterns.xmlTag().withName("actionGroup")
                 )
             ),
             new ActionGroupCompletionProvider()
         );
 
-        // mftf action group completion contributor
+        // mftf data entity completion contributor
         extend(
             CompletionType.BASIC,
             psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
@@ -147,5 +147,25 @@ public class XmlCompletionContributor extends CompletionContributor {
             ),
             new DataCompletionProvider()
         );
+
+        extend(
+            CompletionType.BASIC,
+            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+                .inside(
+                    XmlPatterns.xmlAttribute().withName("extends")
+                        .withParent(XmlPatterns.xmlTag().withName("entity")
+                )
+            ),
+            new DataCompletionProvider()
+        );
+
+        // TODO - test completion contributor
+//        extend(
+//            CompletionType.BASIC,
+//            psiElement(XmlTokenType.XML_ATTRIBUTE_VALUE_TOKEN)
+//                .inside(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value", "userInput", "url"))
+//            ),
+//            new DataCompletionProvider()
+//        );
     }
 }

@@ -197,5 +197,28 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
         );
 
         // TODO "extends" attribute for actionGroup, test, etc. and stepKeys references in extended type to original parent type
+        registrar.registerReferenceProvider(
+            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName("extends")
+                .withParent(XmlPatterns.xmlTag().withName("actionGroup"))),
+            new CompositeReferenceProvider(
+                new ActionGroupReferenceProvider()
+            )
+        );
+
+        registrar.registerReferenceProvider(
+            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName("extends")
+                .withParent(XmlPatterns.xmlTag().withName("entity"))),
+            new CompositeReferenceProvider(
+                new DataReferenceProvider()
+            )
+        );
+
+        registrar.registerReferenceProvider(
+            XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName("extends")
+                .withParent(XmlPatterns.xmlTag().withName("test"))),
+            new CompositeReferenceProvider(
+//                new TestReferenceProvider()
+            )
+        );
     }
 }
