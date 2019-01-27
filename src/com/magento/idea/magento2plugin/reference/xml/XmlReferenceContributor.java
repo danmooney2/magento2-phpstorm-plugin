@@ -158,18 +158,17 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
         registrar.registerReferenceProvider(
             XmlPatterns.xmlAttributeValue().withValue(string().matches(".*\\{\\{[^\\}]+\\}\\}.*")),
             new CompositeReferenceProvider(
-                new SelectorReferenceProvider(),
                 new DataReferenceProvider(),
-                new PageReferenceProvider()
-                // TODO - section!
+                new PageReferenceProvider(),
+                new SectionReferenceProvider()
             )
         );
 
         registrar.registerReferenceProvider(
             XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value", "userInput", "url"))),
             new CompositeReferenceProvider(
-                new DataReferenceProvider()
-                // TODO - section!
+                new DataReferenceProvider(),
+                new SectionReferenceProvider()
             )
         );
 

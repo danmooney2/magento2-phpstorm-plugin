@@ -8,7 +8,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.indexing.FileBasedIndex;
 import com.magento.idea.magento2plugin.stubs.indexes.mftf.ActionGroupIndex;
-import com.magento.idea.magento2plugin.stubs.indexes.mftf.SelectorIndex;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
