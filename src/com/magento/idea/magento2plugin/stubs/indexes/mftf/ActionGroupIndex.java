@@ -30,6 +30,8 @@ public class ActionGroupIndex extends FileBasedIndexExtension<String, String> {
         return inputData -> {
             Map<String, String> map = new THashMap<>();
             PsiFile psiFile = inputData.getPsiFile();
+
+            Logger.getInstance("pizzatime").info("Booting actionGroupIndex");
             if (!Settings.isEnabled(psiFile.getProject())) {
                 return map;
             }
@@ -63,7 +65,7 @@ public class ActionGroupIndex extends FileBasedIndexExtension<String, String> {
                     continue;
                 }
 
-//                Logger.getInstance("pizzatime").info("Adding to ActionGroupIndex: " + name);
+                Logger.getInstance("pizzatime").info("Adding to ActionGroupIndex: " + name);
                 map.put(name, name);
             }
 

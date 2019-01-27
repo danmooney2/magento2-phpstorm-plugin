@@ -34,6 +34,9 @@ public class PageReferenceProvider extends PsiReferenceProvider {
         String origValue = StringUtil.unquoteString(element.getText());
         String modifiedValue = origValue.replaceAll("\\{{2}([_A-Za-z0-9]+)([^}]+)?\\}{2}", "$1").toString();
 
+        Logger.getInstance("pizzatime").info("Looking in pageIndex for origValue: " + origValue);
+        Logger.getInstance("pizzatime").info("Looking in pageIndex for modifiedValue: " + modifiedValue);
+
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
                 PageIndex.KEY,
@@ -43,6 +46,8 @@ public class PageReferenceProvider extends PsiReferenceProvider {
                     XmlFileType.INSTANCE
                 )
             );
+
+        Logger.getInstance("pizzatime").info("containingFiles.size in pageIndex for modifiedValue " + modifiedValue + ": " + containingFiles.size());
 
         PsiManager psiManager = PsiManager.getInstance(element.getProject());
 

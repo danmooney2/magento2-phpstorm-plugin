@@ -40,6 +40,8 @@ public class ActionGroupReferenceProvider extends PsiReferenceProvider {
 
         String origValue = StringUtil.unquoteString(element.getText());
 
+        Logger.getInstance("pizzatime").info("Looking in actionGroupIndex for origValue: " + origValue);
+
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
                 ActionGroupIndex.KEY,
@@ -49,6 +51,8 @@ public class ActionGroupReferenceProvider extends PsiReferenceProvider {
                     XmlFileType.INSTANCE
                 )
             );
+
+        Logger.getInstance("pizzatime").info("containingFiles.size in actionGroupIndex for origValue " + origValue + ": " + containingFiles.size());
 
         PsiManager psiManager = PsiManager.getInstance(element.getProject());
 

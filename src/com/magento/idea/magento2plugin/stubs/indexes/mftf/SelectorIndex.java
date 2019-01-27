@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+// TODO - rename to SectionIndex
 public class SelectorIndex extends FileBasedIndexExtension<String, String> {
     public static final ID<String, String> KEY = ID.create(
         "com.magento.idea.magento2plugin.stubs.indexes.mftf.selector_index"
@@ -72,6 +73,7 @@ public class SelectorIndex extends FileBasedIndexExtension<String, String> {
                         continue;
                     }
 
+                    Logger.getInstance("pizzatime").info("Adding to selectorIndex: " + section + "." + element);
                     map.put(section + "." + element, selector);
                 }
             }

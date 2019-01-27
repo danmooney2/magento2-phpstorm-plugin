@@ -161,6 +161,7 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
                 new SelectorReferenceProvider(),
                 new DataReferenceProvider(),
                 new PageReferenceProvider()
+                // TODO - section!
             )
         );
 
@@ -168,6 +169,7 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
             XmlPatterns.xmlAttributeValue().withParent(XmlPatterns.xmlAttribute().withName(string().oneOf("entity", "value", "userInput", "url"))),
             new CompositeReferenceProvider(
                 new DataReferenceProvider()
+                // TODO - section!
             )
         );
 
@@ -194,7 +196,6 @@ public class XmlReferenceContributor extends PsiReferenceContributor {
                 new VariableToStepKeyProvider()
             )
         );
-
 
         // TODO "extends" attribute for actionGroup, test, etc. and stepKeys references in extended type to original parent type
     }

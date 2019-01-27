@@ -1,6 +1,7 @@
 package com.magento.idea.magento2plugin.reference.provider.mftf;
 
 import com.intellij.ide.highlighter.XmlFileType;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -30,6 +31,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// TODO - rename to SectionReferenceProvider
 public class SelectorReferenceProvider extends PsiReferenceProvider {
 
     @NotNull
@@ -40,6 +42,9 @@ public class SelectorReferenceProvider extends PsiReferenceProvider {
         String origValue = StringUtil.unquoteString(element.getText());
         String modifiedValue = origValue.replaceAll(".*\\{{2}([_A-Za-z0-9.]+)(\\([^}]+\\))?\\}{2}.*", "$1").toString();
 
+        Logger.getInstance("pizzatime").info("Looking in selectorIndex for origValue: " + origValue);
+        Logger.getInstance("pizzatime").info("Looking in selectorIndex for modifiedValue: " + modifiedValue);
+
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
                 SelectorIndex.KEY,
@@ -49,6 +54,8 @@ public class SelectorReferenceProvider extends PsiReferenceProvider {
                     XmlFileType.INSTANCE
                 )
             );
+
+        Logger.getInstance("pizzatime").info("containingFiles.size in selectorIndex for modifiedValue " + modifiedValue + ": " + containingFiles.size());
 
         PsiManager psiManager = PsiManager.getInstance(element.getProject());
 
@@ -64,6 +71,9 @@ public class SelectorReferenceProvider extends PsiReferenceProvider {
             String[] parts = modifiedValue.split("\\.");
             String sectionName = parts[0];
             String elementName = parts[1];
+
+            Logger.getInstance("pizzatime").info("Looking in sectionIndex for sectionName: " + sectionName);
+            Logger.getInstance("pizzatime").info("Looking in sectionIndex for elementName: " + elementName);
 
             XmlTag rootTag = xmlFile.getRootTag();
 

@@ -1,6 +1,7 @@
 package com.magento.idea.magento2plugin.reference.provider.mftf;
 
 import com.intellij.ide.highlighter.XmlFileType;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
@@ -35,6 +36,9 @@ public class DataReferenceProvider extends PsiReferenceProvider {
         String origValue = StringUtil.unquoteString(element.getText());
         String modifiedValue = origValue.replaceAll("\\{{2}([_A-Za-z0-9.]+)(\\([^}]+\\))?\\}{2}", "$1").toString();
 
+        Logger.getInstance("pizzatime").info("Looking in dataIndex for origValue: " + origValue);
+        Logger.getInstance("pizzatime").info("Looking in dataIndex for modifiedValue: " + modifiedValue);
+
         Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance()
             .getContainingFiles(
                 DataIndex.KEY,
@@ -44,6 +48,8 @@ public class DataReferenceProvider extends PsiReferenceProvider {
                     XmlFileType.INSTANCE
                 )
             );
+
+        Logger.getInstance("pizzatime").info("containingFiles.size in dataIndex for modifiedValue " + modifiedValue + ": " + containingFiles.size());
 
         PsiManager psiManager = PsiManager.getInstance(element.getProject());
 
