@@ -8,7 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 @State(
     name = "Magento2PluginSettings",
-    storages = @Storage("magento2plugin.xml")
+    storages = {
+        @Storage("magento2plugin.xml")
+    }
 )
 public class Settings implements PersistentStateComponent<Settings> {
     public boolean pluginEnabled = false;
